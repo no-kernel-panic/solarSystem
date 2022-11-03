@@ -1,55 +1,60 @@
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class SunScript : MonoBehaviour
 {
+    
     // Start is called before the first frame update
-
-    private Rigidbody2D _sunRigidbody2D;
-    private float _sunMass;
+    private float _sunMass = 1000000f;
     public float G = 1f;
-    private Vector2 _acceleration;
-    private Vector2 _velocity;
     private Vector2 F;
-    private GameObject[] _celestialBodies;
+    private Dictionary<GameObject, PlanetScript> _celestialBodies;
+    
 
 
     void Start()
     {
-        _celestialBodies = GameObject.FindGameObjectsWithTag("celestialbody");
-
-
-        _sunRigidbody2D = GetComponent<Rigidbody2D>();
-        _sunMass = _sunRigidbody2D.mass;
-        _velocity = _sunRigidbody2D.velocity;
-        foreach (GameObject cb in _celestialBodies)
+        _celestialBodies = new Dictionary<GameObject, PlanetScript>();
+        foreach (var go in GameObject.FindGameObjectsWithTag("celestialbody"))
         {
-            Rigidbody2D _rbcb = cb.GetComponent<Rigidbody2D>();
-            _rbcb.velocity = new Vector2(10, 10);
+            _celestialBodies.Add(go, go.GetComponent<PlanetScript>() );
         }
+
+       
     }
 
+    
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        foreach (GameObject cb in _celestialBodies)
+
+        float time = 0.001f;
+        
+        foreach (KeyValuePair<GameObject, PlanetScript> planet in  _celestialBodies)
         {
-            Rigidbody2D _rbcb = cb.GetComponent<Rigidbody2D>();
-            F = ((G * _rbcb.mass * _sunMass) /
+
+
+            planet.Value.originalPosition = planet.Key.transform.position;
+            
+            F = ((G * planet.Value.mass * _sunMass) /
                  (float)Math.Pow
                  (Vector2.Distance
-                     (_sunRigidbody2D.position, _rbcb.position), 2)) 
-                * (_sunRigidbody2D.position - _rbcb.position).normalized ;
+                     (transform.position, planet.Key.transform.position), 2)) 
+                * (transform.position - planet.Key.transform.position).normalized ;
 
-            _acceleration = F / _rbcb.mass;
+            planet.Value.acceleration = F / planet.Value.mass;
 
+            planet.Key.transform.position += (planet.Value.velocity * time + 0.0005f * planet.Value.acceleration * time * time);
 
-            _rbcb.velocity += _acceleration;
-            _rbcb.AddForce(F);
+            planet.Value.newPosition = planet.Key.transform.position;
+
+            planet.Value.velocity = (planet.Value.newPosition - planet.Value.originalPosition) / time;
+            
+           
         }
     }
 }
+
+
