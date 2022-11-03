@@ -20,6 +20,14 @@ public class PlanetScript : MonoBehaviour
     void Update()
     {
          transform.position += startVelocity * Time.deltaTime;
-  
+         transform.eulerAngles += Vector3.forward * 5 * Time.deltaTime;
+
+    }
+    
+    private void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
     }
 }
+
+

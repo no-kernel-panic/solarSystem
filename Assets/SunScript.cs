@@ -34,6 +34,10 @@ public class SunScript : MonoBehaviour
         
         foreach (KeyValuePair<GameObject, PlanetScript> planet in  _celestialBodies)
         {
+            if (planet.Key.gameObject)
+            {
+                
+           
 
 
             planet.Value.originalPosition = planet.Key.transform.position;
@@ -52,7 +56,7 @@ public class SunScript : MonoBehaviour
 
             planet.Value.velocity = (planet.Value.newPosition - planet.Value.originalPosition) / time;
             
-           
+            }
         }
     }
 }
