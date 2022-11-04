@@ -1,7 +1,10 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class SunScript : MonoBehaviour
 {
@@ -10,18 +13,20 @@ public class SunScript : MonoBehaviour
     private float _sunMass = 1000000f;
     public float G = 1f;
     private Vector2 F;
-    private Dictionary<GameObject, PlanetScript> _celestialBodies;
-    
+    public Dictionary<GameObject, PlanetScript> _celestialBodies;
+    private Camera cam = null;
+    private Light2D light;
 
 
     void Start()
     {
+        light = GetComponent<Light2D>();
         _celestialBodies = new Dictionary<GameObject, PlanetScript>();
         foreach (var go in GameObject.FindGameObjectsWithTag("celestialbody"))
         {
             _celestialBodies.Add(go, go.GetComponent<PlanetScript>() );
         }
-
+        cam = Camera.main;;
        
     }
 
@@ -29,6 +34,14 @@ public class SunScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        StartCoroutine(Flickering());
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            GameObject celestialbody = Instantiate(_celestialBodies.ElementAt(new System.Random().Next(0, _celestialBodies.Count)).Key, new Vector3(3,-4),  Quaternion.identity);
+            _celestialBodies.Add(celestialbody, celestialbody.GetComponent<PlanetScript>());
+        }
 
         float time = 0.001f;
         
@@ -37,9 +50,7 @@ public class SunScript : MonoBehaviour
             if (planet.Key.gameObject)
             {
                 
-           
-
-
+          
             planet.Value.originalPosition = planet.Key.transform.position;
             
             F = ((G * planet.Value.mass * _sunMass) /
@@ -59,6 +70,21 @@ public class SunScript : MonoBehaviour
             }
         }
     }
+    
+    
+    IEnumerator Flickering()
+    {
+     
+        for (float alpha = 1f; alpha >= 0; alpha -= 0.1f)
+        {
+            light.intensity = alpha;
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+
 }
+
+
 
 
