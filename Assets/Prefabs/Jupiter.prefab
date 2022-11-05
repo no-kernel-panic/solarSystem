@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4639924552946369609}
   - component: {fileID: 4639924552946369610}
-  - component: {fileID: 4639924552946369611}
+  - component: {fileID: -6181083295463299423}
   m_Layer: 0
   m_Name: Jupiter
   m_TagString: celestialbody
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4639924552946369604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.59, y: -1.12, z: 0}
+  m_LocalPosition: {x: -1460.2556, y: -345.4899, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85,24 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4639924552946369611
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &-6181083295463299423
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4639924552946369604}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 10
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2beee1abeaf003359a00c058da8487c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalPosition: {x: -1459.0521, y: -345.2052, z: 0}
+  newPosition: {x: -1460.2556, y: -345.4899, z: 0}
+  velocity: {x: -1203.4912, y: -284.6985, z: 0}
+  acceleration: {x: 0.43241552, y: 0.102288626, z: 0}
+  mass: 10000

@@ -16,13 +16,11 @@ public class SunScript : MonoBehaviour
     public Dictionary<GameObject, PlanetScript> _celestialBodies;
     private Camera cam = null;
     private Light2D light;
-
-
     void Start()
     {
         light = GetComponent<Light2D>();
         _celestialBodies = new Dictionary<GameObject, PlanetScript>();
-        foreach (var go in GameObject.FindGameObjectsWithTag("celestialbody"))
+        foreach (var go in GameObject.FindGameObjectsWithTag("celestialbody")) 
         {
             _celestialBodies.Add(go, go.GetComponent<PlanetScript>() );
         }
@@ -36,12 +34,15 @@ public class SunScript : MonoBehaviour
     {
         StartCoroutine(Flickering());
 
+        
         if (Input.GetMouseButtonDown(0))
         {
 
-            GameObject celestialbody = Instantiate(_celestialBodies.ElementAt(new System.Random().Next(0, _celestialBodies.Count)).Key, new Vector3(3,-4),  Quaternion.identity);
+            GameObject celestialbody = Instantiate(_celestialBodies.ElementAt(new System.Random().Next(0, _celestialBodies.Count)).Key, new Vector3(2,-1), Quaternion.identity);
+          
             _celestialBodies.Add(celestialbody, celestialbody.GetComponent<PlanetScript>());
         }
+        
 
         float time = 0.001f;
         
@@ -75,7 +76,7 @@ public class SunScript : MonoBehaviour
     IEnumerator Flickering()
     {
      
-        for (float alpha = 1f; alpha >= 0; alpha -= 0.1f)
+        for (float alpha = 3f; alpha >= 1; alpha -= 0.1f)
         {
             light.intensity = alpha;
             yield return new WaitForSeconds(1);
